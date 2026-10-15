@@ -1,0 +1,12 @@
+Save your homepage hero video in this folder with this exact name:
+
+    hero-video.mp4
+
+Optional lighter version for phones:
+
+    hero-video-mobile.mp4
+    (then set "On phones" → "lighter mobile video" in Admin → Hero video)
+
+Tips: MP4 (H.264), 1920×1080, 10–30 seconds, no audio needed, ideally under 15 MB.
+
+The studio logo goes one folder up:  public/logo.png
