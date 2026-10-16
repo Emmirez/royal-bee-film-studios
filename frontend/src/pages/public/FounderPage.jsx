@@ -186,14 +186,17 @@ export default function FounderPage() {
         </section>
       )}
 
-      <section className="bg-ink-950 py-20 text-center text-paper-50">
-        <div className="container-site">
-          <h2 className="heading-md">Let’s make something together.</h2>
-          <Button to={f.cta?.href || '/enquire'} variant="gold" size="lg" iconRight={ArrowRight} className="mt-8">
-            {f.cta?.label || 'Work with us'}
-          </Button>
-        </div>
-      </section>
+          <div className="bg-paper-100 px-3 py-6 sm:px-6 sm:py-10 lg:px-10">
+        <section className="relative mx-auto max-w-[1500px] overflow-hidden rounded-[28px] bg-ink-950 px-6 py-16 text-center text-paper-50 sm:rounded-[40px] sm:py-20">
+          <span aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold-500/20 blur-3xl" />
+          <div className="relative">
+            <h2 className="heading-md text-balance">Let’s make something together.</h2>
+            <Button to={f.cta?.href || '/enquire'} variant="gold" size="lg" iconRight={ArrowRight} className="mt-8">
+              {f.cta?.label || 'Work with us'}
+            </Button>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
