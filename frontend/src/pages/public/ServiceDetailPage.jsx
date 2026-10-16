@@ -179,14 +179,17 @@ export default function ServiceDetailPage() {
         </section>
       )}
 
-      <section className="bg-ink-950 py-20 text-paper-50">
-        <div className="container-site flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
-          <h2 className="heading-md max-w-xl">Ready to talk about your {s.title.toLowerCase()} project?</h2>
-          <Button to={enquireHref} variant="gold" size="lg" iconRight={ArrowRight}>
-            Start a project
-          </Button>
-        </div>
-      </section>
+            <div className="bg-paper-100 px-3 py-6 sm:px-6 sm:py-10 lg:px-10">
+        <section className="relative mx-auto max-w-[1500px] overflow-hidden rounded-[28px] bg-ink-950 px-6 py-14 text-paper-50 sm:rounded-[40px] sm:px-12 sm:py-20 lg:px-16">
+          <span aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold-500/20 blur-3xl" />
+          <div className="relative flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
+            <h2 className="heading-md max-w-xl text-balance">Ready to talk about your {s.title.toLowerCase()} project?</h2>
+            <Button to={enquireHref} variant="gold" size="lg" iconRight={ArrowRight} className="shrink-0">
+              Start a project
+            </Button>
+          </div>
+        </section>
+      </div>
     </>
   );
 }
