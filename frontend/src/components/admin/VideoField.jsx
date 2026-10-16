@@ -100,7 +100,7 @@ export default function VideoField({ value = {}, onChange, folder = 'hero', allo
           <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-app-border px-4 py-4 text-sm hover:border-app-accent">
             <UploadCloud className="h-5 w-5 text-app-accent" aria-hidden />
                       <span className="min-w-0 flex-1">{progress !== null && !mobileTarget ? `Uploading… ${progress}%` : value.publicId ? 'Replace the video' : 'Click to upload a video (MP4, WebM or MOV, up to 100MB)'}</span>  
-            <input ref={fileRef} type="file" accept="video/mp4,video/webm,video/quicktime" className="sr-only" disabled={progress !== null} onChange={(e) => upload(e.target.files?.[0])} />
+        <input ref={fileRef} type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden"   disabled={progress !== null} onChange={(e) => upload(e.target.files?.[0])} />
           </label>
             {progress !== null && !mobileTarget && (
             <div className="mt-2 h-1.5  overflow-hidden rounded-full bg-app-muted" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
@@ -116,7 +116,7 @@ export default function VideoField({ value = {}, onChange, folder = 'hero', allo
           <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-app-border px-4 py-4 text-sm hover:border-app-accent">
             <UploadCloud className="h-5 w-5 text-app-accent" aria-hidden />
             <span className="min-w-0 flex-1">{progress !== null && mobileTarget ? `Uploading… ${progress}%` : value.mobileUrl ? 'Replace the phone version' : 'Click to upload a smaller video for phones'}</span>
-            <input ref={mobileFileRef} type="file" accept="video/mp4,video/webm,video/quicktime" className="sr-only" disabled={progress !== null} onChange={(e) => upload(e.target.files?.[0], true)} />
+           <input ref={mobileFileRef} type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden"  disabled={progress !== null} onChange={(e) => upload(e.target.files?.[0], true)} />
           </label>
           {progress !== null && mobileTarget && (
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-app-muted" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>

@@ -65,7 +65,7 @@ export default function Modal({ open, onClose, title, description, children, foo
         aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
         className={cx(
-          'relative flex max-h-[92vh] w-full animate-slide-up flex-col overflow-hidden rounded-t-2xl border border-app-border bg-app-surface text-app-text shadow-lift sm:animate-scale-in sm:rounded-2xl',
+        'relative flex max-h-[92vh] w-full animate-slide-up flex-col overflow-clip rounded-t-2xl  border border-app-border bg-app-surface text-app-text shadow-lift sm:animate-scale-in sm:rounded-2xl',
           SIZES[size],
           className,
         )}
