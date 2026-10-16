@@ -1,5 +1,8 @@
 import { useId } from 'react';
 
+// Hidden until the studio actually sends newsletters (set to true to bring the checkbox back).
+const SHOW_NEWS_OPT_IN = false;
+
 function Check({ id, checked, onChange, children, error }) {
   return (
     <div>
@@ -34,9 +37,11 @@ export default function ConsentFields({ privacyNotice, privacyAccepted, marketin
       <Check id={`${id}-privacy`} checked={privacyAccepted} onChange={(v) => onChange('privacyAccepted', v)} error={error}>
         I agree that Royal Bee Film Studios may use these details to respond to me. <span className="text-status-danger">*</span>
       </Check>
-      <Check id={`${id}-marketing`} checked={marketingConsent} onChange={(v) => onChange('marketingConsent', v)}>
-        Send me occasional studio news and updates (optional — unsubscribe any time).
-      </Check>
+           {SHOW_NEWS_OPT_IN && (
+        <Check id={`${id}-marketing`} checked={marketingConsent} onChange={(v) => onChange('marketingConsent', v)}>
+          Send me occasional studio news and updates (optional — unsubscribe any time).
+        </Check>
+      )} 
     </fieldset>
   );
 }

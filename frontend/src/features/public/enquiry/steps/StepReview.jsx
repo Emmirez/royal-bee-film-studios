@@ -63,7 +63,7 @@ export default function StepReview({ data, questions, onEdit, currency }) {
         <Row label="Phone" value={data.phone} />
         <Row label="Organization" value={data.organization} />
         <Row label="Contact by" value={{ email: 'Email', phone: 'Phone', any: 'Email or phone' }[data.preferredContactMethod]} />
-        <Row label="Studio updates" value={data.marketingConsent ? 'Yes, please' : 'No'} />
+        {/* <Row label="Studio updates" value={data.marketingConsent ? 'Yes, please' : 'No'} /> */}
       </Group>
     </div>
   );
