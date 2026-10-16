@@ -51,6 +51,7 @@ const MediaLibraryPage = lazy(() => import('./pages/admin/MediaLibraryPage'));
 const EnquiriesPage = lazy(() => import('./pages/admin/enquiries/EnquiriesPage'));
 const EnquiryDetailPage = lazy(() => import('./pages/admin/enquiries/EnquiryDetailPage'));
 const MessagesPage = lazy(() => import('./pages/admin/enquiries/MessagesPage'));
+const MessageDetailPage = lazy(() => import('./pages/admin/enquiries/MessageDetailPage'));
 const ContactsPage = lazy(() => import('./pages/admin/crm/ContactsPage'));
 const ContactDetailPage = lazy(() => import('./pages/admin/crm/ContactDetailPage'));
 const StaffPage = lazy(() => import('./pages/admin/team/StaffPage'));
@@ -156,6 +157,7 @@ export default function App() {
           <Route path="enquiries" element={<EnquiriesPage />} />
           <Route path="enquiries/:id" element={<EnquiryDetailPage />} />
           <Route path="messages" element={<MessagesPage />} />
+          <Route path="messages/:id" element={<MessageDetailPage />} />
           <Route path="contacts" element={<ContactsPage />} />
           <Route path="contacts/:id" element={<ContactDetailPage />} />
           <Route path="projects" element={<ProjectsPage />} />

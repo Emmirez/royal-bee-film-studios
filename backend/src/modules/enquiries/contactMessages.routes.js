@@ -63,4 +63,24 @@ router.patch(
   }),
 );
 
+/** Delete a message for good (spam, tests). The CRM contact and audit trail are kept. */
+router.delete(
+  '/:id',
+  requirePermission(P.ENQUIRIES_MANAGE),
+  asyncHandler(async (req, res) => {
+    const message = await ContactMessage.findById(req.params.id);
+    if (!message) throw ApiError.notFound('Message not found');
+    await message.deleteOne();
+    await audit(req, {
+      action: 'contact_messages.deleted',
+      entityType: 'ContactMessage',
+      entityId: message._id,
+      summary: `${message.name} <${message.email}>`,
+      metadata: { subject: message.subject },
+      severity: 'notice',
+    });
+    return ok(res, { deleted: true });
+  }),
+);
+
 export default router;
