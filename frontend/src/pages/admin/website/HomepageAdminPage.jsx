@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ExternalLink, Pencil, Plus } from 'lucide-react';
+import { ChevronDown, ChevronUp, ExternalLink, Pencil, Plus } from 'lucide-react';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
 import Modal from '../../../components/ui/Modal';
@@ -48,6 +48,14 @@ export default function HomepageAdminPage() {
       setItems(prev);
       toast.error(err.message);
     }
+  };
+
+  /** Move a section one place up (-1) or down (+1) — works with a tap on phones. */
+  const move = (i, d) => {
+    const next = [...items];
+    const [section] = next.splice(i, 1);
+    next.splice(i + d, 0, section);
+    onReorder(next);
   };
 
   const toggleEnabled = async (s) => {
@@ -100,7 +108,7 @@ export default function HomepageAdminPage() {
       <PageHeader
         eyebrow="Website"
         title="Homepage"
-        description="Drag to reorder. Visitors only see sections that are enabled and published."
+        description="Use the arrows (or drag on desktop) to reorder. Visitors only see sections that are enabled and published." 
         actions={
           <>
             <Button href="/" variant="secondary" icon={ExternalLink}>
@@ -124,13 +132,28 @@ export default function HomepageAdminPage() {
             onReorder={canEdit ? onReorder : () => {}}
             renderItem={(s, { handle }, i) => (
               <div className={cx('flex items-center gap-3 border-b border-app-border px-3 py-3 last:border-0 sm:px-4', !s.enabled && 'opacity-60')}>
-                {canEdit && handle}
-                <span className="w-6 text-center font-mono text-xs text-app-subtle">{i + 1}</span>
+              {canEdit && <span className="hidden sm:block">{handle}</span>}
+                {canEdit && (
+                  <span className="flex shrink-0 flex-col">
+                    <button type="button" disabled={i === 0} onClick={() => move(i, -1)} aria-label={`Move ${s.name} up`} className="rounded-md p-1 text-app-subtle hover:bg-app-muted hover:text-app-text disabled:opacity-25">
+                      <ChevronUp className="h-4 w-4" />
+                    </button>
+                    <button type="button" disabled={i === items.length - 1} onClick={() => move(i, 1)} aria-label={`Move ${s.name} down`} className="rounded-md p-1 text-app-subtle hover:bg-app-muted hover:text-app-text disabled:opacity-25">
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                  </span>
+                )}
+                <span className="w-6 shrink-0 text-center font-mono text-xs text-app-subtle">{i + 1}</span>
                 <button type="button" onClick={() => setEditing({ ...s })} className="min-w-0 flex-1 text-left">
-                  <span className="block truncate font-semibold">{s.name}</span>
-                  <span className="block text-xs text-app-subtle">{typeLabel(s.type)}</span>
+                               <span className="block truncate font-semibold">{s.name}</span>
+                  <span className="block truncate text-xs text-app-subtle">{typeLabel(s.type)}</span>
+                  <span className="mt-1 block sm:hidden">
+                    <StatusBadge status={s.status} />
+                  </span>
                 </button>
-                <StatusBadge status={s.status} />
+                  <span className="hidden sm:block">
+                  <StatusBadge status={s.status} />
+                </span>
                 <Switch checked={s.enabled} onChange={() => toggleEnabled(s)} disabled={!canEdit} label={<span className="sr-only">Enabled</span>} />
                 <Button size="icon-sm" variant="ghost" onClick={() => setEditing({ ...s })} aria-label={`Edit ${s.name}`}>
                   <Pencil className="h-4 w-4" />
