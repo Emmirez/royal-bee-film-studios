@@ -60,6 +60,7 @@ export const HOME_SECTION_TYPES = [
   'gallery',
   'partner',
   'talent',
+  'clips',
   'testimonials',
   'cta',
   'contact',

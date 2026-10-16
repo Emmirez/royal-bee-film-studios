@@ -3,6 +3,7 @@ import Input from '../../components/ui/Input';
 import Textarea from '../../components/ui/Textarea';
 import Select from '../../components/ui/Select';
 import ImageField from '../../components/admin/ImageField';
+import VideoField from '../../components/admin/VideoField';
 import MultiImageField from '../../components/admin/MultiImageField';
 import { ListEditor, StringListEditor } from '../../components/admin/ListEditor';
 import { Switch } from '../../components/ui/Primitives';
@@ -19,6 +20,7 @@ export const SECTION_TYPES = [
   { value: 'gallery', label: 'Image gallery', description: 'Up to 6 photos after the news section' },
   { value: 'partner', label: 'Partner with us banner', description: 'A banner with a button to the Partner page' },
   { value: 'talent', label: 'Join our talent roster banner', description: 'A dark strip with a button to the talent application page' },
+  { value: 'clips', label: 'Video clips reel', description: 'Short film clips people can swipe through and tap to watch' },
   { value: 'testimonials', label: 'Testimonials' },
   { value: 'cta', label: 'Call-to-action banner' },
   { value: 'contact', label: 'Contact details' },
@@ -231,6 +233,56 @@ export function SectionContentForm({ type, content = {}, onChange }) {
           <LinkNote to="/admin/talent">Applications arrive in Talent → Talent roster → Applications.</LinkNote>
         </div>
       ); 
+          case 'clips':
+      return (
+        <div className="space-y-4">
+          <Heading c={c} set={set} />
+          <Textarea label="Intro (optional)" rows={2} value={c.intro || ''} onChange={(e) => set({ intro: e.target.value })} maxLength={300} />
+          <ListEditor
+            items={c.items || []}
+            onChange={(items) => set({ items })}
+            newItem={() => ({ title: '', caption: '', shape: 'portrait', video: { type: 'cloudinary', url: '', publicId: '' }, poster: null })}
+            addLabel="Add a clip"
+            max={12}
+            emptyText="No clips yet — click “Add a clip”."
+            renderRow={(clip, update) => (
+              <>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Input label="Title" value={clip.title || ''} onChange={(e) => update({ title: e.target.value })} maxLength={80} placeholder="e.g. Teaser — My Mother’s Garden" />
+                  <Select
+                    label="Shape"
+                    value={clip.shape || 'portrait'}
+                    onChange={(shape) => update({ shape })}
+                    options={[
+                      { value: 'portrait', label: 'Vertical (phone, 9:16)' },
+                      { value: 'landscape', label: 'Widescreen (16:9)' },
+                    ]}
+                  />
+                </div>
+                <Input label="Caption (optional)" value={clip.caption || ''} onChange={(e) => update({ caption: e.target.value })} maxLength={140} />
+                <VideoField label="Clip" value={clip.video || {}} onChange={(video) => update({ video })} folder="productions" allowNone={false} />
+                <ImageField
+                  label="Cover image (optional)"
+                  value={clip.poster}
+                  onChange={(poster) => update({ poster })}
+                  folder="productions"
+                  aspect={clip.shape === 'landscape' ? '16/9' : '9/16'}
+                  withAlt={false}
+                  hint="Shown before the clip plays. YouTube clips use their own thumbnail if you leave this empty; add one for Vimeo links."
+                />
+              </>
+            )}
+          />
+          <p className="text-xs text-app-subtle">Uploaded clips play silently while on screen; tapping any clip opens it full-screen with sound. Keep uploads short (under 1 minute) so they load fast on phones.</p>
+          <Switch label="Show button" description="A button next to the heading." checked={Boolean(c.showButton)} onChange={(v) => set({ showButton: v })} />
+          {c.showButton && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input label="Button label" value={c.buttonLabel || ''} onChange={(e) => set({ buttonLabel: e.target.value })} placeholder="See all work" maxLength={40} />
+              <Input label="Button link" value={c.buttonLink || ''} onChange={(e) => set({ buttonLink: e.target.value })} placeholder="/productions" />
+            </div>
+          )}
+        </div>
+      );
     case 'testimonials':
       return (
         <div className="space-y-4">

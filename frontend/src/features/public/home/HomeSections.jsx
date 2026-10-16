@@ -8,6 +8,7 @@ import NewsSection from './sections/NewsSection';
 import GallerySection from './sections/GallerySection';
 import PartnerBannerSection from './sections/PartnerBannerSection';
 import TalentBannerSection from './sections/TalentBannerSection';
+import ClipsSection from './sections/ClipsSection';
 import TestimonialsSection from './sections/TestimonialsSection';
 import CtaBannerSection from './sections/CtaBannerSection';
 import ContactSection from './sections/ContactSection';
@@ -23,6 +24,7 @@ export const SECTION_COMPONENTS = {
   gallery: GallerySection,
   partner: PartnerBannerSection,
   talent: TalentBannerSection,
+  clips: ClipsSection,
   testimonials: TestimonialsSection,
   cta: CtaBannerSection,
   contact: ContactSection,
