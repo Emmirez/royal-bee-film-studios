@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Youtube, Facebook, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
+import DeveloperCredit from './DeveloperCredit';
 import { usePublicSettings } from '../../features/public/publicApi';
 import { PRIMARY_LINKS } from './navigation';
 
@@ -98,9 +99,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-paper-300/60 sm:flex-row sm:justify-between">
+          <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-paper-300/60 sm:flex-row sm:items-center sm:justify-between">
           <p>{(s?.footer?.copyright || '© {year} Royal Bee Film Studios. All rights reserved.').replaceAll('{year}', year)}</p>
-          <p>Crafted for the big screen.</p>
+          <DeveloperCredit />
         </div>
       </div>
     </footer>
