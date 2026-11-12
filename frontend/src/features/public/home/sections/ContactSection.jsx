@@ -7,6 +7,7 @@ export default function ContactSection({ data, content = {}, theme }) {
   const c = data?.contact || {};
   const rows = [
     c.email && { icon: Mail, label: 'Email', value: c.email, href: `mailto:${c.email}` },
+    c.personalEmail && { icon: Mail, label: c.personalEmailLabel || 'Personal email', value: c.personalEmail, href: `mailto:${c.personalEmail}` },
     c.phone && { icon: Phone, label: 'Phone', value: c.phone, href: `tel:${c.phone.replace(/\s/g, '')}` },
     (c.address || c.city) && { icon: MapPin, label: 'Studio', value: [c.address, c.city, c.country].filter(Boolean).join(', '), href: c.mapUrl || undefined },
     c.officeHours && { icon: Clock, label: 'Hours', value: c.officeHours },

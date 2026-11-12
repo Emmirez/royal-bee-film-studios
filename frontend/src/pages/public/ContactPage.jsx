@@ -52,6 +52,7 @@ export default function ContactPage() {
 
   const details = [
     c.email && { icon: Mail, label: 'Email', value: c.email, href: `mailto:${c.email}` },
+    c.personalEmail && { icon: Mail, label: c.personalEmailLabel || 'Personal email', value: c.personalEmail, href: `mailto:${c.personalEmail}` },
     c.phone && { icon: Phone, label: 'Phone', value: c.phone, href: `tel:${c.phone.replace(/\s/g, '')}` },
     (c.address || c.city) && { icon: MapPin, label: 'Studio', value: [c.address, c.city, c.country].filter(Boolean).join(', ') },
     c.officeHours && { icon: Clock, label: 'Hours', value: c.officeHours },

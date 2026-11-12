@@ -10,6 +10,8 @@ const siteSettingsSchema = new mongoose.Schema(
     logo: { type: imageSchema, default: () => ({ url: '/logo.png', alt: 'Royal Bee Film Studios' }) },
     contact: {
       email: { type: String, trim: true, default: '' },
+      personalEmail: { type: String, trim: true, default: '' },
+      personalEmailLabel: { type: String, trim: true, maxlength: 40, default: '' },
       phone: { type: String, trim: true, default: '' },
       whatsappDisplay: { type: String, trim: true, default: '' }, // display only — no WhatsApp notifications
       address: { type: String, trim: true, default: '' },

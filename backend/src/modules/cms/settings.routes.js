@@ -20,6 +20,8 @@ const settingsSchema = z
     contact: z
       .object({
         email: z.union([z.literal(''), z.string().trim().email()]),
+        personalEmail: z.union([z.literal(''), z.string().trim().email()]),
+        personalEmailLabel: t(40),
         phone: t(40),
         whatsappDisplay: t(40),
         address: t(300),

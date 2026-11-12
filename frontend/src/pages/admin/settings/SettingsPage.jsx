@@ -119,6 +119,8 @@ export default function SettingsPage() {
           <Card title="Contact details">
             <div className="grid gap-4 sm:grid-cols-2">
               <Input label="Email" type="email" value={v.contact?.email || ''} onChange={(e) => form.set('contact.email', e.target.value)} />
+              <Input label="Second email (optional)" type="email" value={v.contact?.personalEmail || ''} onChange={(e) => form.set('contact.personalEmail', e.target.value)} hint="Shown next to the main email on the website." />
+              <Input label="Second email label" value={v.contact?.personalEmailLabel || ''} onChange={(e) => form.set('contact.personalEmailLabel', e.target.value)} placeholder="Personal email" maxLength={40} hint="The small heading above it, e.g. “Queen Okam (personal)”." />
               <Input label="Phone" value={v.contact?.phone || ''} onChange={(e) => form.set('contact.phone', e.target.value)} />
               <Input label="Address" value={v.contact?.address || ''} onChange={(e) => form.set('contact.address', e.target.value)} className="sm:col-span-2" />
               <Input label="City" value={v.contact?.city || ''} onChange={(e) => form.set('contact.city', e.target.value)} />

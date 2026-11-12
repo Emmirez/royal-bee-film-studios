@@ -83,6 +83,12 @@ export default function Footer() {
                   <a href={`mailto:${s.contact.email}`} className="hover:text-white">{s.contact.email}</a>
                 </li>
               )}
+                {s?.contact?.personalEmail && (
+                <li className="flex gap-3">
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden />
+                  <a href={`mailto:${s.contact.personalEmail}`} className="break-all hover:text-white">{s.contact.personalEmail}</a>
+                </li>
+              )}
               {s?.contact?.phone && (
                 <li className="flex gap-3">
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-gold-400" aria-hidden />
