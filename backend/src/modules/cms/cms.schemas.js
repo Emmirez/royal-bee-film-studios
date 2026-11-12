@@ -158,7 +158,6 @@ export const productionSchema = z.object({
   year: z.number().int().min(1900).max(2200).nullable().optional(),
   releaseDate: z.coerce.date().nullable().optional(),
   stage: z.enum(PRODUCTION_STAGES).optional(),
-  runtimeMinutes:
   runtimeMinutes: z.number().int().min(0).max(2000).nullable().optional(),
   clientName: shortText(120).optional(),
   showClientName: z.boolean().optional(),
