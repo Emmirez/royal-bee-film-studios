@@ -68,6 +68,8 @@ export function productionCard(p) {
     logline: p.logline,
     category: p.category,
     year: p.year,
+    stage: p.stage || 'released',
+    releaseDate: p.releaseDate || null,
     coverImage: imageOut(p.coverImage),
     isFeatured: Boolean(p.isFeatured),
     isPlaceholder: Boolean(p.isPlaceholder),

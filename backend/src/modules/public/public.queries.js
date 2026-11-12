@@ -1,4 +1,4 @@
-import { publicVisibilityFilter } from '../../constants/content.js';
+import { FORTHCOMING_STAGES, publicVisibilityFilter } from '../../constants/content.js';
 import { Service } from '../../models/Service.js';
 import { Production } from '../../models/Production.js';
 import { NewsPost } from '../../models/NewsPost.js';
@@ -27,12 +27,18 @@ export function listPublicServices({ ids, limit } = {}) {
   return q.lean();
 }
 
-export function listPublicProductions({ ids, featured, category, limit, skip = 0 } = {}) {
-  const filter = publicProductionsFilter();
+/** status: 'released' | 'forthcoming' — older productions without a stage count as released. */
+export const stageFilter = (status) =>
+  status === 'forthcoming' ? { stage: { $in: FORTHCOMING_STAGES } } : status === 'released' ? { stage: { $nin: FORTHCOMING_STAGES } } : {};
+
+export function listPublicProductions({ ids, featured, category, status, limit, skip = 0 } = {}) {
+  const filter = { ...publicProductionsFilter(), ...stageFilter(status) };
   if (ids?.length) filter._id = { $in: ids };
   if (featured) filter.isFeatured = true;
   if (category) filter.category = category;
-  const q = Production.find(filter).sort({ isFeatured: -1, order: 1, year: -1, createdAt: -1 }).skip(skip);
+  // Forthcoming: soonest release first
+  const sort = status === 'forthcoming' ? { releaseDate: 1, order: 1, createdAt: -1 } : { isFeatured: -1, order: 1, year: -1, createdAt: -1 };
+  const q = Production.find(filter).sort(sort).skip(skip);
   if (limit) q.limit(limit);
   return q.lean();
 }

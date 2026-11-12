@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {
   HOME_SECTION_TYPES,
   PRODUCTION_CATEGORIES,
+  PRODUCTION_STAGES,
   FOUNDER_IMAGE_CATEGORIES,
   GALLERY_CATEGORIES,
   CTA_PLACEMENTS,
@@ -156,6 +157,8 @@ export const productionSchema = z.object({
   tags: stringList(20, 40).optional(),
   year: z.number().int().min(1900).max(2200).nullable().optional(),
   releaseDate: z.coerce.date().nullable().optional(),
+  stage: z.enum(PRODUCTION_STAGES).optional(),
+  runtimeMinutes:
   runtimeMinutes: z.number().int().min(0).max(2000).nullable().optional(),
   clientName: shortText(120).optional(),
   showClientName: z.boolean().optional(),

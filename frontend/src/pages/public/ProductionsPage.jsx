@@ -10,14 +10,16 @@ import { cx } from '../../lib/format';
 export default function ProductionsPage() {
   const [params, setParams] = useSearchParams();
   const category = params.get('category') || '';
+  const status = params.get('status') === 'forthcoming' ? 'forthcoming' : 'released';
   const page = Number(params.get('page')) || 1;
-  const { data, isLoading, error, refetch, isFetching } = useProductions({ category: category || undefined, page, limit: 12 });
+  const { data, isLoading, error, refetch, isFetching } = useProductions({ category: category || undefined, status, page, limit: 12 });
+  // Only show the Released / Coming soon tabs when something is actually coming
+  const { data: upcoming } = useProductions({ status: 'forthcoming', limit: 1 });
+  const hasUpcoming = (upcoming?.meta?.total || 0) > 0;
 
-  const setCategory = (c) => {
-    const next = new URLSearchParams();
-    if (c) next.set('category', c);
-    setParams(next);
-  };
+  const keep = { ...(status === 'forthcoming' && { status }), ...(category && { category }) };
+  const setCategory = (c) => setParams({ ...(status === 'forthcoming' && { status }), ...(c && { category: c }) });
+  const setStatus = (s) => setParams(s === 'forthcoming' ? { status: s } : {});
 
   const items = data?.data || [];
   const meta = data?.meta;
@@ -30,6 +32,25 @@ export default function ProductionsPage() {
 
       <section className="bg-paper-100 pb-24">
         <div className="container-site">
+                    {(hasUpcoming || status === 'forthcoming') && (
+            <div role="group" aria-label="Released or coming soon" className="mb-6 inline-flex rounded-full border border-paper-400 bg-paper-50 p-1">
+              {[
+                { value: 'released', label: 'Released' },
+                { value: 'forthcoming', label: 'Coming soon' },
+              ].map((t) => (
+                <button
+                  key={t.value}
+                  type="button"
+                  aria-pressed={status === t.value}
+                  onClick={() => setStatus(t.value)}
+                  className={cx('rounded-full px-5 py-2 text-sm font-semibold transition', status === t.value ? 'bg-ink-900 text-paper-100' : 'text-ink-700 hover:text-ink-900')}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          )}
+
           {categories.length > 1 && (
             <div role="group" aria-label="Filter by category" className="no-scrollbar -mx-4 mb-10 flex gap-2 overflow-x-auto px-4">
               {['', ...categories].map((c) => (
@@ -54,7 +75,7 @@ export default function ProductionsPage() {
           ) : error ? (
             <PublicError error={error} onRetry={refetch} />
           ) : items.length === 0 ? (
-            <p className="py-24 text-center text-ink-600">No productions in this category yet.</p>
+            <p className="py-24 text-center text-ink-600">{status === 'forthcoming' ? 'No upcoming projects here yet.' : 'No productions in this category yet.'}</p>
           ) : (
             <div className={cx('grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 transition-opacity', isFetching && 'opacity-60')}>
               {items.map((p) => (
@@ -65,13 +86,13 @@ export default function ProductionsPage() {
 
           {meta && meta.totalPages > 1 && (
             <nav aria-label="Pagination" className="mt-14 flex items-center justify-center gap-3">
-              <Button variant="outline" disabled={page <= 1} onClick={() => setParams({ ...(category && { category }), page: String(page - 1) })}>
+              <Button variant="outline" disabled={page <= 1} onClick={() => setParams({ ...keep, page: String(page - 1) }) }>
                 Previous
               </Button>
               <span className="px-3 text-sm tabular text-ink-600">
                 {page} / {meta.totalPages}
               </span>
-              <Button variant="outline" disabled={page >= meta.totalPages} onClick={() => setParams({ ...(category && { category }), page: String(page + 1) })}>
+              <Button variant="outline" disabled={page >= meta.totalPages} onClick={() => setParams({ ...keep, page: String(page + 1) })}>
                 Next
               </Button>
             </nav>

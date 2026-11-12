@@ -21,6 +21,7 @@ export const SECTION_TYPES = [
   { value: 'partner', label: 'Partner with us banner', description: 'A banner with a button to the Partner page' },
   { value: 'talent', label: 'Join our talent roster banner', description: 'A dark strip with a button to the talent application page' },
   { value: 'clips', label: 'Video clips reel', description: 'Short film clips people can swipe through and tap to watch' },
+  { value: 'forthcoming', label: 'Forthcoming projects', description: 'Productions whose stage is not “Released” yet' },
   { value: 'testimonials', label: 'Testimonials' },
   { value: 'cta', label: 'Call-to-action banner' },
   { value: 'contact', label: 'Contact details' },
@@ -281,6 +282,22 @@ export function SectionContentForm({ type, content = {}, onChange }) {
               <Input label="Button link" value={c.buttonLink || ''} onChange={(e) => set({ buttonLink: e.target.value })} placeholder="/productions" />
             </div>
           )}
+        </div>
+      );
+        case 'forthcoming':
+      return (
+        <div className="space-y-4">
+          <Heading c={c} set={set} />
+          <Textarea label="Intro (optional)" rows={2} value={c.intro || ''} onChange={(e) => set({ intro: e.target.value })} maxLength={300} />
+          <Input label="Maximum to show" type="number" min={1} max={12} value={c.limit || 8} onChange={(e) => set({ limit: Number(e.target.value) || 8 })} className="max-w-[160px]" />
+          <Switch label="Show button" description="A button next to the heading." checked={c.showButton !== false} onChange={(v) => set({ showButton: v })} />
+          {c.showButton !== false && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input label="Button label" value={c.buttonLabel || ''} onChange={(e) => set({ buttonLabel: e.target.value })} placeholder="All upcoming" maxLength={40} />
+              <Input label="Button link" value={c.buttonLink || ''} onChange={(e) => set({ buttonLink: e.target.value })} placeholder="/productions?status=forthcoming" />
+            </div>
+          )}
+          <LinkNote to="/admin/website/productions">Projects appear here automatically when their Stage is anything except “Released”. Set the stage on each production.</LinkNote>
         </div>
       );
     case 'testimonials':

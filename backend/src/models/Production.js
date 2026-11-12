@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PRODUCTION_CATEGORIES } from '../constants/content.js';
+import { PRODUCTION_CATEGORIES, PRODUCTION_STAGES } from '../constants/content.js';
 import { imageSchema, videoSchema, seoSchema, withWorkflow } from './shared.js';
 
 const mediaItemSchema = new mongoose.Schema(
@@ -29,6 +29,7 @@ const productionSchema = new mongoose.Schema(
     tags: { type: [String], default: [] },
     year: { type: Number, min: 1900, max: 2200 },
     releaseDate: { type: Date },
+    stage: { type: String, enum: PRODUCTION_STAGES, default: 'released', index: true },
     runtimeMinutes: { type: Number, min: 0 },
     clientName: { type: String, trim: true, maxlength: 120, default: '' },
     showClientName: { type: Boolean, default: false }, // only with client permission

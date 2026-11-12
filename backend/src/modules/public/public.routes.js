@@ -69,6 +69,12 @@ async function resolveSection(section, ctx) {
       if (ids.length) items.sort((a, b) => ids.indexOf(String(a._id)) - ids.indexOf(String(b._id)));
       return { ...base, data: { items: items.map(S.productionCard) } };
     }
+    case 'forthcoming': {
+      const items = await Q.listPublicProductions({ status: 'forthcoming', limit: c.limit || 8 });
+      // Dated releases first (soonest), undated ones after
+      items.sort((a, b) => (a.releaseDate ? 0 : 1) - (b.releaseDate ? 0 : 1));
+      return { ...base, data: { items: items.map(S.productionCard) } };
+    }
     case 'services': {
       const ids = Array.isArray(c.serviceIds) ? c.serviceIds : [];
       const items = await Q.listPublicServices({ ids, limit: c.limit || 0 });
@@ -241,6 +247,7 @@ router.get(
 const productionListQuery = z.object({
   category: z.enum(PRODUCTION_CATEGORIES).optional(),
   featured: z.enum(['true', 'false']).optional(),
+  status: z.enum(['released', 'forthcoming']).optional(),
   page: z.coerce.number().int().min(1).optional(),
   limit: z.coerce.number().int().min(1).max(48).optional(),
 });
@@ -250,11 +257,11 @@ router.get(
   asyncHandler(async (req, res) => {
     const q = productionListQuery.parse(req.query);
     const { page, limit, skip } = parsePagination(q, { defaultLimit: 12, maxLimit: 48 });
-    const filter = Q.publicProductionsFilter();
+    const filter = { ...Q.publicProductionsFilter(), ...Q.stageFilter(q.status) };
     if (q.category) filter.category = q.category;
     if (q.featured === 'true') filter.isFeatured = true;
     const [items, total, categories] = await Promise.all([
-      Q.listPublicProductions({ category: q.category, featured: q.featured === 'true', limit, skip }),
+      Q.listPublicProductions({ category: q.category, featured: q.featured === 'true', status: q.status, limit, skip }),  
       Production.countDocuments(filter),
       Production.distinct('category', Q.publicProductionsFilter()),
     ]);

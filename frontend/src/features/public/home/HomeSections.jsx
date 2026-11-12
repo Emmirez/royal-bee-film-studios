@@ -9,6 +9,7 @@ import GallerySection from './sections/GallerySection';
 import PartnerBannerSection from './sections/PartnerBannerSection';
 import TalentBannerSection from './sections/TalentBannerSection';
 import ClipsSection from './sections/ClipsSection';
+import ForthcomingSection from './sections/ForthcomingSection';
 import TestimonialsSection from './sections/TestimonialsSection';
 import CtaBannerSection from './sections/CtaBannerSection';
 import ContactSection from './sections/ContactSection';
@@ -21,10 +22,12 @@ export const SECTION_COMPONENTS = {
   featured_productions: FeaturedProductionsSection,
   services: ServicesSection,
   founder: FounderSpotlightSection,
+  news: NewsSection,
   gallery: GallerySection,
   partner: PartnerBannerSection,
   talent: TalentBannerSection,
   clips: ClipsSection,
+  forthcoming: ForthcomingSection,
   testimonials: TestimonialsSection,
   cta: CtaBannerSection,
   contact: ContactSection,

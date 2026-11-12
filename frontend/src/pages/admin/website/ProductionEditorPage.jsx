@@ -10,6 +10,7 @@ import ContentEditor from '../../../features/admin/ContentEditor';
 import MediaItemsEditor from '../../../features/admin/MediaItemsEditor';
 import SeoFields from '../../../features/admin/SeoFields';
 import { useOptions } from '../../../features/admin/adminApi';
+import { PRODUCTION_STAGES } from '../../../lib/productionStages';
 
 const CATEGORIES = ['Feature Film', 'Short Film', 'Documentary', 'Series', 'Commercial', 'Music Video', 'Brand Film', 'Corporate'];
 
@@ -21,6 +22,7 @@ const EMPTY = {
   tags: [],
   year: new Date().getFullYear(),
   releaseDate: '',
+  stage: 'released',
   runtimeMinutes: null,
   clientName: '',
   showClientName: false,
@@ -70,6 +72,7 @@ export default function ProductionEditorPage() {
         tags: f.tags,
         year: f.year ? Number(f.year) : null,
         releaseDate: f.releaseDate || null,
+        stage: f.stage || 'released',
         runtimeMinutes: f.runtimeMinutes ? Number(f.runtimeMinutes) : null,
         clientName: f.clientName,
         showClientName: f.showClientName,
@@ -106,7 +109,20 @@ export default function ProductionEditorPage() {
                     <Input label="Year" type="number" value={v.year ?? ''} onChange={(e) => set('year', e.target.value === '' ? null : Number(e.target.value))} error={errors.year} />
                     <Input label="Runtime (min)" type="number" min={0} value={v.runtimeMinutes ?? ''} onChange={(e) => set('runtimeMinutes', e.target.value === '' ? null : Number(e.target.value))} />
                   </div>
-                  <Input label="Release date" type="date" value={v.releaseDate || ''} onChange={(e) => set('releaseDate', e.target.value)} />
+                                    <Select
+                    label="Stage"
+                    value={v.stage || 'released'}
+                    onChange={(x) => set('stage', x)}
+                    options={PRODUCTION_STAGES}
+                    hint="Anything except “Released” appears in Forthcoming projects instead of the main portfolio."
+                  />
+                  <Input
+                    label={v.stage && v.stage !== 'released' ? 'Expected release date' : 'Release date'}
+                    type="date"
+                    value={v.releaseDate || ''}
+                    onChange={(e) => set('releaseDate', e.target.value)}
+                    hint={v.stage && v.stage !== 'released' ? 'Optional — leave empty to show “Coming” plus the year above.' : undefined}
+                  />
                   <CommaListInput label="Tags (comma separated)" value={v.tags || []} onChange={(x) => set('tags', x)} max={20} />
                   <Switch checked={v.isFeatured} onChange={(x) => set('isFeatured', x)} label="Featured" description="Shown first on the homepage and portfolio." />
                   <Switch checked={v.isPlaceholder} onChange={(x) => set('isPlaceholder', x)} label="Sample content" description="Labels this as a sample on the website." />

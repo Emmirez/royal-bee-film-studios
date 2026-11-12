@@ -61,6 +61,7 @@ export const HOME_SECTION_TYPES = [
   'partner',
   'talent',
   'clips',
+  'forthcoming',
   'testimonials',
   'cta',
   'contact',
@@ -77,7 +78,11 @@ export const PRODUCTION_CATEGORIES = [
   'Corporate',
 ];
 
-export const FOUNDER_IMAGE_CATEGORIES = ['portrait', 'studio', 'on_set', 'behind_the_scenes', 'press'];
+/** Where a production is in its life. Anything except "released" counts as forthcoming. */
+export const PRODUCTION_STAGES = ['in_development', 'pre_production', 'filming', 'post_production', 'coming_soon', 'released'];
+export const FORTHCOMING_STAGES = PRODUCTION_STAGES.filter((s) => s !== 'released');
+
+export const FOUNDER_IMAGE_CATEGORIES= ['portrait', 'studio', 'on_set', 'behind_the_scenes', 'press'];
 export const GALLERY_CATEGORIES = ['studio', 'production', 'behind_the_scenes', 'on_set', 'crew'];
 
 export const CTA_PLACEMENTS = [
